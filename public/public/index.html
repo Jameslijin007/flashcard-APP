@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智能英语闪卡</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <nav class="navbar">
+      <h1>📚 智能英语闪卡</h1>
+      <div class="nav-stats">
+        <span>总词量: <strong id="totalCount">0</strong></span>
+        <span>今日待复习: <strong id="dueCount">0</strong></span>
+      </div>
+    </nav>
+
+    <section class="add-section">
+      <div class="input-group">
+        <input type="text" id="wordInput" placeholder="输入英语单词，如：abandon"
+               onkeypress="if(event.key==='Enter')addWord()">
+        <button onclick="addWord()" class="btn-primary">➕ 添加</button>
+      </div>
+      <div id="fetchStatus" class="status"></div>
+      <div id="wordPreview" class="word-preview" style="display:none">
+        <h3 id="previewWord"></h3>
+        <p id="previewPhonetic"></p>
+        <p id="previewMeaning"></p>
+        <p id="previewExample"></p>
+        <button onclick="confirmAdd()" class="btn-success">✅ 确认添加</button>
+        <button onclick="cancelAdd()" class="btn-cancel">❌ 取消</button>
+      </div>
+    </section>
+
+    <section class="study-section">
+      <div id="noCards" class="empty-state">
+        <p>🎉 暂无待复习单词</p>
+        <p>添加新单词开始学习吧！</p>
+      </div>
+
+      <div id="cardArea" class="card-area" style="display:none">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+          <div class="card-front" id="cardFront">
+            <div class="card-label">👆 点击卡片查看释义</div>
+            <h2 id="frontWord"></h2>
+            <button class="btn-speak" onclick="event.stopPropagation();speakWord()">🔊</button>
+          </div>
+          <div class="card-back" id="cardBack" style="display:none">
+            <div class="phonetic-line">
+              <span>🇬🇧 <span id="backUk"></span></span>
+              <span>🇺🇸 <span id="backUs"></span></span>
+            </div>
+            <div id="backMeanings" class="meanings"></div>
+            <div id="backExamples" class="examples"></div>
+          </div>
+        </div>
+
+        <div id="reviewBtns" class="review-buttons" style="display:none">
+          <button onclick="rateWord(1)" class="btn-forgot">😵 完全忘记</button>
+          <button onclick="rateWord(3)" class="btn-hard">🤔 有点印象</button>
+          <button onclick="rateWord(5)" class="btn-easy">😎 完全记住</button>
+        </div>
+
+        <div class="card-nav">
+          <span id="cardProgress">0 / 0</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="list-section">
+      <h3>📋 我的单词本</h3>
+      <div class="list-actions">
+        <button onclick="exportData()" class="btn-small">📤 导出备份</button>
+        <label class="btn-small">📥 导入数据
+          <input type="file" accept=".json" onchange="importData(event)" style="display:none">
+        </label>
+      </div>
+      <div id="wordList" class="word-list"></div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
